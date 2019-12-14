@@ -10,5 +10,6 @@ Rails.application.routes.draw do
         delete :destroy
       end
     end
+    resources :items
   end
 end
