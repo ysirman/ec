@@ -28,7 +28,7 @@ class Api::UsersController < ApplicationController
   end
 
   def update
-    if @current_user.update(email: params[:email], password: params[:password])
+    if @current_user.update(email: params[:email], password: params[:password], point: params[:point])
       render json: { status: "SUCCESS", message: "Updated current user", data: @current_user }
     else
       render json: { status: "ERROR", message: "Not updated", data: @current_user.errors }
