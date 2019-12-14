@@ -31,7 +31,7 @@ class Api::UsersController < ApplicationController
     if @current_user.update(email: params[:email], password: params[:password])
       render json: { status: "SUCCESS", message: "Updated current user", data: @current_user }
     else
-      render json: { status: "SUCCESS", message: "Not updated", data: @current_user.errors }
+      render json: { status: "ERROR", message: "Not updated", data: @current_user.errors }
     end
   end
 
