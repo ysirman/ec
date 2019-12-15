@@ -11,5 +11,6 @@ Rails.application.routes.draw do
       end
     end
     resources :items
+    resources :order_histories, except: [:update, :destroy]
   end
 end
