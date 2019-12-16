@@ -28,8 +28,8 @@ RSpec.describe "OrderHistoryAPI" do
     item = FactoryBot.create(:item)
     current_point = @user.point
     order_history_params = { params:
-                      { order_history: { user_id: @user.id, item_id: item.id } },
-                    headers: @token }
+                              { order_history: { user_id: @user.id, item_id: item.id } },
+                            headers: @token }
     expect {
       post "/api/order_histories", order_history_params
     }.to change(OrderHistory, :count).by(1)
