@@ -12,10 +12,10 @@ class OrderHistory < ApplicationRecord
       user = order_history.user
       exhibitor = order_history.item.user
       self.transaction do
-        item.lock!.update!(on_sale: false)
-        order_history.save!
-        user.update!(point: user.point - item.price)
-        exhibitor.update!(point: user.point + item.price)
+        item.lock!.update!(on_sale: false)                # itemを悲観的ロックして、on_saleを更新（販売中:true => 売切:false）
+        order_history.save!                               # 購入履歴作成
+        user.update!(point: user.point - item.price)      # 購入者のpointを価格分マイナス
+        exhibitor.update!(point: user.point + item.price) # 出品者のpointを価格分プラス
       end
       true
     end
@@ -24,15 +24,11 @@ class OrderHistory < ApplicationRecord
   private
     class << self
       def order_check(order_history)
-        check_user_point(order_history)
+        check_user_point(order_history)  # point不足の場合、購入不可
       end
 
       def check_user_point(order_history)
-        if (order_history.user.point - order_history.item.price) < 0
-          false
-        else
-          true
-        end
+        (order_history.user.point - order_history.item.price) < 0 ? false : true
       end
     end
 end

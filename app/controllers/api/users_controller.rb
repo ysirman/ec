@@ -2,15 +2,10 @@
 
 class Api::UsersController < ApplicationController
   skip_before_action :authenticate, only: :create
-  before_action :set_user, only: [:show]
-
-  def index
-    users = User.order(created_at: :desc)
-    render json: { status: "SUCCESS", message: "Loaded users", data: users }
-  end
 
   def show
-    render json: { status: "SUCCESS", message: "Loaded the user", data: @user }
+    user_data = { email: @current_user.email, point: @current_user.point }
+    render json: { status: "SUCCESS", message: "Loaded the user", data: user_data }
   end
 
   def create
@@ -36,10 +31,6 @@ class Api::UsersController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(params[:id])
-    end
-
     def user_params
       params.require(:user).permit(
         :email,
