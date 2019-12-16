@@ -8,6 +8,13 @@ RSpec.describe "UserAPI" do
     @token = { "Authorization" => "Token token=#{@user.token}" }
   end
 
+  it "get current user" do
+    get "/api/users", headers: @token
+    expect(response.status).to eq(200)
+    json = JSON.parse(response.body)
+    expect(json["data"]["email"]).to eq(@user.email)
+  end
+
   it "create user" do
     user_params = { params:
                       { user:

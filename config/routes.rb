@@ -3,8 +3,9 @@
 Rails.application.routes.draw do
   namespace "api" do
     post "login", to: "login#login"
-    resources :users, except: [:update, :destroy] do
+    resources :users, only: [:create] do
       collection do
+        get    :show
         put    :update
         patch  :update
         delete :destroy
